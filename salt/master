@@ -346,8 +346,7 @@ gitfs_env_whitelist:
   - base
 
 gitfs_remotes:
-  - https://github.com/TronPaul/unpro-salt.git:
-    - root: state
+  - https://github.com/TronPaul/unpro-salt.git
   - https://github.com/TronPaul/sun-java-formula.git
   - https://github.com/TronPaul/sensu-formula.git
   - https://github.com/TronPaul/rabbitmq-formula.git

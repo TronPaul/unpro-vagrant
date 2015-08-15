@@ -1,0 +1,4 @@
+roles:
+  - monitor_master
+  - rabbitmq
+

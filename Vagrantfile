@@ -3,7 +3,7 @@
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 require 'yaml'
-VAGRANTFILE_API_VERSION = "2"
+VAGRANTFILE_API_VERSION = '2'
 
 def config_vm(box, n)
   box.vm.network :private_network, ip: "192.168.50.#{n}"
@@ -26,7 +26,7 @@ def config_salt(salt, hostname, type = :minion)
       salt.grains_config = vagrant_grain_file_path
     end
   end
-  salt.install_args = '-P git 2015.8'
+  salt.install_args = '-F -c /tmp/ -P git develop'
   salt.colorize = true
   #salt.verbose = true
   #salt.log_level = 'info'
@@ -93,6 +93,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :'salt-master' do |box|
     box.vm.box = "ubuntu/trusty64"
     box.vm.hostname = 'salt-master'
+    box.vm.synced_folder 'salt/pillar', '/srv/pillar'
 
     config_vm(box, 8)
     box.vm.provision :shell do |s|
@@ -112,6 +113,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :nasus do |box|
     box.vm.box = "ubuntu/trusty64"
     box.vm.hostname = 'nasus'
+    box.vm.network 'forwarded_port', guest: 9300, host: 9300
+    config.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
 
     config_vm(box, 9)
     box.vm.provision :salt do |salt|

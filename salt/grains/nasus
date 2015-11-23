@@ -3,3 +3,4 @@ roles:
   - torrentserver
   - nas  
   - vpn_client
+  - music_server
